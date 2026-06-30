@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="description" content="A magical birthday celebration experience" />
+  <title>Happy Birthday ✨</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Custom cursor balloon -->
+  <div id="cursor-balloon" aria-hidden="true">
+    <div class="cursor-balloon-body"></div>
+    <div class="cursor-balloon-string"></div>
+  </div>
+  <canvas id="cursor-sparkle-canvas"></canvas>
+
+  <!-- Global background layers -->
+  <canvas id="stars-canvas"></canvas>
+  <canvas id="particles-canvas"></canvas>
+  <canvas id="shooting-stars-canvas"></canvas>
+  <div class="aurora-layer" aria-hidden="true"></div>
+  <div id="emoji-rain" aria-hidden="true"></div>
+  <div class="ambient-glow glow-1"></div>
+  <div class="ambient-glow glow-2"></div>
+  <div class="ambient-glow glow-3"></div>
+
+  <!-- Progress dots -->
+  <nav id="scene-nav" class="scene-nav hidden" aria-label="Scene navigation">
+    <button class="nav-dot active" data-scene="0" aria-label="Landing"></button>
+    <button class="nav-dot" data-scene="1" aria-label="Balloons"></button>
+    <button class="nav-dot" data-scene="2" aria-label="Cake"></button>
+    <button class="nav-dot" data-scene="3" aria-label="Cut Cake"></button>
+    <button class="nav-dot" data-scene="4" aria-label="Message"></button>
+    <button class="nav-dot" data-scene="5" aria-label="Gift"></button>
+    <button class="nav-dot" data-scene="6" aria-label="Finale"></button>
+  </nav>
+
+  <!-- ========== LANDING ========== -->
+  <section id="scene-landing" class="scene active">
+    <div class="landing-content">
+      <h1 class="landing-title">
+        <span class="title-line">Happy</span>
+        <span class="title-line title-accent">Birthday</span>
+      </h1>
+      <p class="landing-subtitle">A magical celebration awaits...</p>
+      <button id="btn-celebrate" class="btn-primary hidden">
+        <span class="btn-text">Click to Celebrate</span>
+        <span class="btn-glow"></span>
+      </button>
+    </div>
+    <canvas id="landing-fireworks"></canvas>
+    <div id="landing-balloons" class="landing-balloons"></div>
+  </section>
+
+  <!-- ========== SCENE 1: BALLOONS ========== -->
+  <section id="scene-balloons" class="scene">
+    <div class="scene-header glass-panel">
+      <h2>Pop the Balloons!</h2>
+      <p>Click any balloon for a surprise burst of joy</p>
+    </div>
+    <canvas id="balloons-canvas"></canvas>
+    <button class="btn-next scene-next" data-next="scene-cake">
+      Continue to Cake <span>→</span>
+    </button>
+  </section>
+
+  <!-- ========== SCENE 2: CAKE ========== -->
+  <section id="scene-cake" class="scene">
+    <div class="scene-header glass-panel">
+      <h2>Make a Wish</h2>
+      <p>Click the flames, swipe across the cake, or tap Blow All!</p>
+    </div>
+    <div id="cake-container"></div>
+    <div id="candle-controls" class="glass-panel candle-controls">
+      <button id="btn-blow-all" class="btn-secondary blow-all-btn">💨 Blow All Candles</button>
+    </div>
+    <div id="wish-message" class="wish-message hidden">
+      <span>🎉 Make a Wish! 🎉</span>
+    </div>
+    <button class="btn-next scene-next hidden" id="btn-cake-next" data-next="scene-cutting">
+      Cut the Cake <span>→</span>
+    </button>
+  </section>
+
+  <!-- ========== SCENE 3: CAKE CUTTING ========== -->
+  <section id="scene-cutting" class="scene">
+    <div class="scene-header glass-panel">
+      <h2>Cut the Cake</h2>
+      <p>Drag the knife to slice your birthday cake</p>
+    </div>
+    <div id="cutting-area">
+      <canvas id="cutting-canvas"></canvas>
+      <div id="knife" class="knife">
+        <svg viewBox="0 0 80 200" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="bladeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#e8e8e8"/>
+              <stop offset="50%" stop-color="#ffffff"/>
+              <stop offset="100%" stop-color="#c0c0c0"/>
+            </linearGradient>
+          </defs>
+          <rect x="35" y="0" width="10" height="120" rx="2" fill="url(#bladeGrad)" />
+          <rect x="30" y="115" width="20" height="8" rx="2" fill="#8B4513"/>
+          <rect x="28" y="123" width="24" height="60" rx="6" fill="#5C3317"/>
+          <rect x="32" y="128" width="16" height="50" rx="4" fill="#7B4B2A"/>
+        </svg>
+      </div>
+    </div>
+    <div id="cutting-done" class="cutting-done hidden">
+      <span>🍰 Happy Birthday! Enjoy your Cake!</span>
+    </div>
+    <button class="btn-next scene-next hidden" id="btn-cutting-next" data-next="scene-message">
+      Read Message <span>→</span>
+    </button>
+  </section>
+
+  <!-- ========== SCENE 4: MESSAGE ========== -->
+  <section id="scene-message" class="scene">
+    <div class="message-container glass-panel">
+      <div id="typing-text" class="typing-text"></div>
+      <span class="typing-cursor">|</span>
+    </div>
+    <button class="btn-next scene-next hidden" id="btn-message-next" data-next="scene-gift">
+      Open Your Gift <span>→</span>
+    </button>
+  </section>
+
+  <!-- ========== SCENE 5: GIFT BOX ========== -->
+  <section id="scene-gift" class="scene">
+    <div class="scene-header glass-panel">
+      <h2>A Special Gift</h2>
+      <p>Tap the box to reveal your surprise</p>
+    </div>
+    <div id="gift-scene">
+      <div id="gift-box" class="gift-box">
+        <div class="gift-lid">
+          <div class="gift-ribbon-v"></div>
+          <div class="gift-ribbon-h"></div>
+          <div class="gift-bow"></div>
+        </div>
+        <div class="gift-body">
+          <div class="gift-ribbon-v"></div>
+          <div class="gift-ribbon-h"></div>
+        </div>
+        <div class="gift-light"></div>
+      </div>
+      <div id="gift-message" class="gift-message hidden">
+        <p>May God Make Your All Dreams Come True .</p>
+      </div>
+    </div>
+    <button class="btn-next scene-next hidden" id="btn-gift-next" data-next="scene-finale">
+      Grand Finale <span>→</span>
+    </button>
+  </section>
+
+  <!-- ========== SCENE 6: FINALE + ENDING ========== -->
+  <section id="scene-finale" class="scene">
+    <canvas id="finale-fireworks"></canvas>
+    <div class="finale-content">
+      <h2 id="finale-title" class="finale-title">🎉 Happy Birthday <span id="birthday-name"></span></h2>
+      <p id="finale-dreams" class="finale-dreams hidden">May all your dreams come true.</p>
+      <p id="finale-love" class="finale-love hidden">❤️ Made with Love ❤️</p>
+    </div>
+    <div id="finale-hearts"></div>
+    <div id="finale-balloons"></div>
+  </section>
+
+  <!-- Decorative elements -->
+  <div id="floating-hearts" aria-hidden="true"></div>
+  <div id="butterflies" aria-hidden="true"></div>
+  <div id="ribbons" aria-hidden="true"></div>
+
+  <!-- Confetti canvas (global) -->
+  <canvas id="confetti-canvas"></canvas>
+  <canvas id="magic-sparkle-canvas"></canvas>
+
+  <!-- Libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
